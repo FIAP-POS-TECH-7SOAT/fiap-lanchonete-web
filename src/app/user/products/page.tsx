@@ -13,13 +13,7 @@ import { formatToBRL } from "@/utils/formatCurrency";
 import { useRouter } from "next/navigation";
 import { usePayment } from "@/hooks/usePayment";
 
-interface ICreateOrder {
-  products: {
-    id: string;
-    amount: number;
-  }[];
-  client_id: string | null;
-}
+
 export interface ICart {
   id:string;
   image:string;
