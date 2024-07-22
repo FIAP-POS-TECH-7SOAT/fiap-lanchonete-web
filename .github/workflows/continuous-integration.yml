@@ -1,0 +1,38 @@
+name: CI -> Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: .
+
+
+      - name: Build Docker Image
+        run: |
+          docker build -t tsrocha901/lanchonete_fiap_web:latest .
+          docker tag tsrocha901/lanchonete_fiap_web:latest tsrocha901/lanchonete_fiap_web:${{ github.sha }}
+        working-directory: .
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker Image
+        run: |
+          docker push tsrocha901/lanchonete_fiap_web:latest
+          docker push tsrocha901/lanchonete_fiap_web:${{ github.sha }}
