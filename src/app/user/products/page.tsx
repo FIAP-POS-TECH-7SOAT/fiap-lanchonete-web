@@ -34,6 +34,7 @@ export default function Products() {
   useEffect(()=>{
 
     async function load(){
+      console.log('process.env.NEXT_PUBLIC_APP_URL',process.env.NEXT_PUBLIC_APP_URL);
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/products?category=Lanche`)
       const toJson = await response.json();
